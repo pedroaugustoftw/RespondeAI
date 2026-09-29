@@ -1,0 +1,35 @@
+name: Anexar pacotes verificados
+on:
+  workflow_dispatch:
+    inputs:
+      build_run:
+        description: Execucao que gerou os pacotes
+        required: true
+      tag:
+        description: Versao do rascunho existente
+        default: v1.0.1
+        required: true
+permissions:
+  actions: read
+  contents: write
+jobs:
+  attach:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.build_run }}
+          pattern: RespondeAI-*
+          path: release-assets
+          merge-multiple: true
+      - name: Conferir integridade e arquitetura
+        run: python .github/scripts/verify_release.py
+      - name: Anexar ao rascunho
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          test "$(gh release view "$RELEASE_TAG" --json isDraft --jq .isDraft)" = true
+          gh release upload "$RELEASE_TAG" release-assets/* --clobber
