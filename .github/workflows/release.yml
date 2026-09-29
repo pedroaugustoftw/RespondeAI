@@ -34,10 +34,24 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: arm64
-      - name: Dependencias nativas Windows ARM64
+      - uses: actions/cache/restore@v4
+        if: matrix.os == 'windows-11-arm'
+        with:
+          path: build-geos-install
+          key: geos-3.13.1-windows-arm64-v1
+      - name: Geometria Windows ARM64
         if: matrix.os == 'windows-11-arm'
         shell: pwsh
-        run: .github/scripts/windows_arm64.ps1
+        run: .github/scripts/windows_arm64.ps1 -Stage geometry
+      - uses: actions/cache/save@v4
+        if: matrix.os == 'windows-11-arm'
+        with:
+          path: build-geos-install
+          key: geos-3.13.1-windows-arm64-v1
+      - name: OpenCV Windows ARM64
+        if: matrix.os == 'windows-11-arm'
+        shell: pwsh
+        run: .github/scripts/windows_arm64.ps1 -Stage opencv
       - name: Dependencias Python
         run: python -m pip install -r requirements.txt pyinstaller pillow
       - name: Compilar e verificar pacote
