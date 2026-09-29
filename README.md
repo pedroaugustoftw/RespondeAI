@@ -84,13 +84,14 @@ Os executáveis são compilados e publicados pelo autor nas [Releases](https://g
 | Arquivo | Destino |
 | --- | --- |
 | `RespondeAI-Windows-x64.exe` | Windows em PCs Intel/AMD de 64 bits |
-| `RespondeAI-Windows-arm64.exe` | Windows em PCs ARM64 |
 | `RespondeAI-Linux-x64.tar.gz` | Linux em PCs Intel/AMD de 64 bits |
 | `RespondeAI-Linux-arm64.tar.gz` | Linux em computadores ARM64 |
 | `RespondeAI-macOS-x64.zip` | Macs com processador Intel |
 | `RespondeAI-macOS-arm64.zip` | Macs com Apple Silicon |
 
 Use a lista de **Assets** e as notas da Release para conferir quais variantes foram publicadas e seus requisitos. Os arquivos `.sha256` permitem conferir a integridade dos downloads.
+
+A **v1.0.1 não inclui Windows ARM64**. As versões ARM64 para Linux e macOS estão disponíveis nessa Release.
 
 | Requisito | Detalhes |
 | --- | --- |
