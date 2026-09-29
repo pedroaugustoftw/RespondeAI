@@ -1,6 +1,6 @@
 RespondeAI - executável portátil para Windows 64 bits
 
-1. Copie somente dist\RespondeAI.exe para o outro computador.
+1. Baixe RespondeAI.exe nas Releases publicadas pelo autor no GitHub.
 2. Abra RespondeAI.exe. Não é necessário instalar Python ou um instalador.
 3. Em Configurações > API, escolha Groq ou Gemini, informe sua chave e modelos,
    e clique em Salvar. Cada computador precisa de sua própria configuração.
@@ -14,9 +14,7 @@ A primeira abertura pode demorar alguns segundos: o arquivo único extrai os
 componentes para uma pasta temporária do Windows. O histórico e as configurações
 ficam em %LOCALAPPDATA%\RespondeAI; as chaves ficam no cofre do Windows.
 
-Para gerar uma nova versão neste projeto:
-  .venv\Scripts\python.exe -m pip install pyinstaller pillow
-  powershell -ExecutionPolicy Bypass -File build_exe.ps1
+Os executáveis são compilados e disponibilizados pelo autor:
+https://github.com/pedroaugustoftw/RespondeAI/releases
 
-O resultado fica em dist\RespondeAI.exe. Não é necessário distribuir os fontes,
-a pasta .venv, o ícone separado nem a pasta build.
+Para executar o código Python, consulte o README.md do repositório.

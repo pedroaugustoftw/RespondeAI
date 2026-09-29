@@ -15,9 +15,66 @@ O RespondeAI é um aplicativo para Windows que transcreve capturas localmente e 
 
 > As imagens deste README usam dados de demonstração. As respostas da IA podem conter erros; confira o resultado antes de utilizá-lo.
 
-## Baixar e abrir
+## Instalar e executar com Python
 
-1. Acesse a seção **Releases** deste repositório e abra a versão mais recente.
+O código deste repositório é um aplicativo Python. O passo a passo abaixo foi preparado para **Windows 64 bits**, com **Python 3.14**.
+
+### 1. Instalar o Python
+
+1. Acesse a [página oficial do Python 3.14.7](https://www.python.org/downloads/release/python-3147/), versão utilizada neste projeto.
+2. Na seção **Files**, baixe **Windows installer (64-bit)**.
+3. Abra o instalador, marque **Add python.exe to PATH** e clique em **Install Now**.
+4. Depois da instalação, abra uma nova janela do PowerShell e confira:
+
+```powershell
+python --version
+python -m pip --version
+```
+
+O primeiro comando deve mostrar `Python 3.14.x`. Se `python` não for reconhecido, confira a opção de adicionar o Python ao PATH no instalador e reabra o terminal.
+
+### 2. Baixar o projeto
+
+No GitHub, clique em **Code → Download ZIP** e extraia o arquivo. Abra a pasta extraída que contém `app.py` e `requirements.txt`, clique com o botão direito em uma área vazia e escolha **Abrir no Terminal**.
+
+Se já tiver Git instalado, também pode baixar pelo terminal:
+
+```powershell
+git clone https://github.com/pedroaugustoftw/RespondeAI.git
+cd RespondeAI
+```
+
+### 3. Instalar as dependências
+
+No terminal aberto na pasta do projeto, execute os comandos abaixo, um por vez:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+Aguarde a instalação terminar. A pasta `.venv` guarda as dependências deste projeto. Não é necessário ativar o ambiente: os comandos usam diretamente o Python dessa pasta.
+
+### 4. Abrir o RespondeAI
+
+```powershell
+.\.venv\Scripts\python.exe app.py
+```
+
+Depois de instalar o Python, você também pode abrir **`iniciar.bat`** com dois cliques. Ele prepara o ambiente e instala as dependências, se necessário, antes de iniciar o aplicativo.
+
+Na primeira captura, o RapidOCR pode baixar os modelos de OCR; mantenha a internet conectada e aguarde. Depois disso, a transcrição acontece localmente. As consultas a Groq ou Gemini continuam precisando de internet.
+
+Com a janela aberta, cadastre sua chave em **Configurações → API**, conforme a próxima seção de configuração. Para abrir novamente, use `iniciar.bat` ou repita o comando de execução; não precisa reinstalar as dependências a cada uso.
+
+Também é possível fornecer as chaves pelas variáveis `GROQ_API_KEY` ou `GEMINI_API_KEY`. Uma chave salva nas configurações tem prioridade sobre a variável correspondente. Nunca publique suas chaves no repositório.
+
+## Executáveis disponibilizados pelo autor
+
+Os executáveis são compilados e publicados pelo autor nas [Releases](https://github.com/pedroaugustoftw/RespondeAI/releases). Você não precisa compilar o projeto para utilizá-los.
+
+1. Acesse **Releases** e abra uma versão disponibilizada pelo autor.
 2. Em **Assets**, baixe **RespondeAI.exe**, quando disponível.
 3. Abra o arquivo e configure a plataforma de IA conforme as instruções abaixo.
 
@@ -122,38 +179,3 @@ O botão **Apagar histórico e cache** remove as respostas salvas e mantém o co
 | A resposta ignorou uma figura | Selecione **A questão contém figura ou gráfico** e capture novamente. |
 | Carregamento após aviso de cota | Aguarde a liberação do limite temporário ou clique em **Cancelar**. |
 | Resposta incorreta ou incompleta | Confira se a captura inclui todo o enunciado e as alternativas; compare o resultado com uma fonte confiável. |
-
-## Executar pelo código-fonte
-
-Esta seção é para quem deseja desenvolver ou modificar o programa. Para usar o aplicativo pronto, basta baixar o `.exe` em **Releases**.
-
-O projeto foi testado com Python 3.14 no Windows. Abra um terminal na pasta do projeto e execute:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe app.py
-```
-
-Na execução pelo código-fonte, o RapidOCR pode baixar os modelos na primeira utilização. Eles já estão incluídos no executável distribuído.
-
-Também é possível fornecer as chaves por `GROQ_API_KEY` ou `GEMINI_API_KEY`. Uma chave salva nas configurações tem prioridade sobre a variável de ambiente correspondente. Nunca inclua chaves nos arquivos publicados no GitHub.
-
-## Gerar o executável
-
-No Windows, com as dependências instaladas e os modelos de OCR já baixados:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install pyinstaller pillow
-powershell -ExecutionPolicy Bypass -File build_exe.ps1
-```
-
-O resultado fica em **`dist/RespondeAI.exe`**, com o ícone e os modelos locais incluídos.
-
-Para publicar uma versão, anexe esse arquivo a uma **Release** do GitHub. As pastas `.venv`, `build` e `dist` já estão no `.gitignore`; o executável é enviado como anexo da Release.
-
-Para atualizar as imagens deste README com dados de demonstração:
-
-```powershell
-.\.venv\Scripts\python.exe docs/capture_screenshots.py
-```
