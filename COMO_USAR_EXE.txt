@@ -1,7 +1,8 @@
 RespondeAI - executável portátil para Windows 64 bits
 
-1. Baixe RespondeAI.exe nas Releases publicadas pelo autor no GitHub.
-2. Abra RespondeAI.exe. Não é necessário instalar Python ou um instalador.
+1. Baixe RespondeAI-Windows-x64.exe ou RespondeAI-Windows-arm64.exe,
+   conforme seu processador, nas Releases publicadas pelo autor no GitHub.
+2. Abra o arquivo baixado. Não é necessário instalar Python ou um instalador.
 3. Em Configurações > API, escolha Groq ou Gemini, informe sua chave e modelos,
    e clique em Salvar. Cada computador precisa de sua própria configuração.
 4. Clique em Iniciar para selecionar uma pergunta na tela.

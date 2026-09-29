@@ -6,7 +6,7 @@
 
 Selecione uma pergunta na tela e receba uma resposta direta em uma janela compacta.
 
-O RespondeAI é um aplicativo para Windows que transcreve capturas localmente e consulta **Groq ou Gemini** para responder. Em questões com figuras, o modelo configurado para imagens recebe a captura e responde diretamente.
+O RespondeAI é um aplicativo Python para desktop que transcreve capturas localmente e consulta **Groq ou Gemini** para responder. Em questões com figuras, o modelo configurado para imagens recebe a captura e responde diretamente.
 
 <p align="center">
   <img src="docs/images/inicio.png" width="340" alt="Tela inicial do RespondeAI com botão Iniciar e contador de consultas">
@@ -75,19 +75,33 @@ Também é possível fornecer as chaves pelas variáveis `GROQ_API_KEY` ou `GEMI
 Os executáveis são compilados e publicados pelo autor nas [Releases](https://github.com/pedroaugustoftw/RespondeAI/releases). Você não precisa compilar o projeto para utilizá-los.
 
 1. Acesse **Releases** e abra uma versão disponibilizada pelo autor.
-2. Em **Assets**, baixe **RespondeAI.exe**, quando disponível.
-3. Abra o arquivo e configure a plataforma de IA conforme as instruções abaixo.
+2. Em **Assets**, escolha o pacote do seu sistema e processador, conforme os arquivos disponíveis naquela versão.
+3. No Windows, abra o `.exe`. No macOS, extraia o `.zip` e mova **RespondeAI.app** para Aplicativos. No Linux, extraia o `.tar.gz` e execute `./RespondeAI` dentro da pasta extraída.
+4. Configure a plataforma de IA conforme as instruções abaixo.
 
-**Não precisa instalar Python nem usar instalador.** Para levar o aplicativo a outro computador, copie somente o `.exe` e configure sua chave nesse computador.
+**Os pacotes incluem o Python e os modelos de OCR.** Cada computador precisa de sua própria chave de API.
+
+| Arquivo | Destino |
+| --- | --- |
+| `RespondeAI-Windows-x64.exe` | Windows em PCs Intel/AMD de 64 bits |
+| `RespondeAI-Windows-arm64.exe` | Windows em PCs ARM64 |
+| `RespondeAI-Linux-x64.tar.gz` | Linux em PCs Intel/AMD de 64 bits |
+| `RespondeAI-Linux-arm64.tar.gz` | Linux em computadores ARM64 |
+| `RespondeAI-macOS-x64.zip` | Macs com processador Intel |
+| `RespondeAI-macOS-arm64.zip` | Macs com Apple Silicon |
+
+Use a lista de **Assets** e as notas da Release para conferir quais variantes foram publicadas e seus requisitos. Os arquivos `.sha256` permitem conferir a integridade dos downloads.
 
 | Requisito | Detalhes |
 | --- | --- |
-| Sistema | Windows 64 bits. O executável atual foi gerado para Windows. |
+| Sistema | Confira os requisitos e a arquitetura nas notas da Release. |
 | Internet | Necessária para consultar Groq ou Gemini. |
 | Chave de API | Uma chave própria da plataforma selecionada, com acesso ao modelo e cota disponível. |
 | OCR | Incluído no executável; a transcrição acontece no computador. |
 
-A abertura pode levar alguns segundos, pois o executável único extrai seus componentes para uma pasta temporária do Windows. Não há versões prontas para Linux, macOS ou iOS neste projeto.
+A abertura pode levar alguns segundos, pois o pacote extrai componentes para uma pasta temporária do sistema. Não há versão para iOS/iPhone.
+
+No **macOS**, permita a gravação/captura da tela para o RespondeAI nas configurações de privacidade do sistema. Os pacotes não possuem notarização Apple. No **Linux**, use uma sessão **X11/Xorg**, com um cofre de credenciais disponível e desbloqueado (Secret Service ou KWallet). A captura sob Wayland ainda não é suportada por este fluxo.
 
 ## Configurar Groq ou Gemini
 
@@ -163,8 +177,8 @@ Use o **ícone de histórico** na tela inicial ou **Configurações → Históri
 
 O botão **Apagar histórico e cache** remove as respostas salvas e mantém o contador de uso.
 
-- As configurações e o histórico ficam em `%LOCALAPPDATA%\RespondeAI`.
-- As chaves cadastradas ficam no cofre de credenciais do Windows.
+- As configurações e o histórico ficam em `%LOCALAPPDATA%\RespondeAI` no Windows e na pasta de dados de aplicativo definida pelo sistema no Linux/macOS.
+- As chaves cadastradas ficam no cofre de credenciais do sistema.
 - As capturas não são gravadas pelo aplicativo em arquivos no disco.
 - O texto transcrito é enviado à plataforma escolhida. Quando o modo de captura indicar uma figura, a captura completa também é enviada.
 - O executável distribuído não inclui suas chaves ou seu histórico. Cada pessoa configura a própria conta.
