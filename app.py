@@ -4,7 +4,7 @@ from html import escape
 from pathlib import Path
 
 import keyring
-from PySide6.QtCore import Qt, QRect, QPoint, QBuffer, QIODevice, QThread, Signal, QTimer, QSize
+from PySide6.QtCore import Qt, QRect, QPoint, QBuffer, QIODevice, QThread, Signal, QTimer, QSize, QStandardPaths
 from PySide6.QtGui import QColor, QPainter, QPen, QShortcut, QKeySequence, QFont, QIcon
 from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel,
     QPushButton, QProgressBar, QTextEdit, QDialog, QFormLayout, QLineEdit,
@@ -353,7 +353,7 @@ class Window(Panel):
             saved_keys = {p: (keyring.get_password('RespondeAI', p) or '').strip()
                           for p in ('groq', 'gemini')}
         except Exception:
-            QMessageBox.warning(self, 'Chave API', 'Não foi possível acessar a chave no cofre do Windows.')
+            QMessageBox.warning(self, 'Chave API', 'Não foi possível acessar o cofre de credenciais do sistema.')
             return
         environment_keys = {p: os.getenv(p.upper() + '_API_KEY', '').strip() for p in saved_keys}
         profiles = {
@@ -619,6 +619,9 @@ class Window(Panel):
 
 
 def main():
+    if len(sys.argv) == 3 and sys.argv[1] == '--diagnostico':
+        from diagnostics import run
+        sys.exit(run(sys.argv[2]))
     if sys.platform == 'win32':
         import ctypes
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('RespondeAI.Desktop')
@@ -627,7 +630,8 @@ def main():
     app.setApplicationName('RespondeAI')
     app.setWindowIcon(QIcon(str(Path(__file__).resolve().parent / 'assets' / 'respondeai.ico')))
     app.setStyleSheet(STYLE)
-    folder = Path(os.getenv('LOCALAPPDATA', str(Path.home()))) / 'RespondeAI'
+    folder = (Path(os.environ['LOCALAPPDATA']) / 'RespondeAI' if sys.platform == 'win32'
+              else Path(QStandardPaths.writableLocation(QStandardPaths.AppLocalDataLocation)))
     folder.mkdir(parents=True, exist_ok=True)
     window = Window(Store(folder / 'respondeai.db'))
     window.show()

@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QApplication
 def main():
     app = QApplication.instance() or QApplication([])
     folder = Path(__file__).resolve().parent / 'assets'
-    image = QImage(256, 256, QImage.Format_ARGB32)
+    image = QImage(1024, 1024, QImage.Format_ARGB32)
     image.fill(Qt.transparent)
     painter = QPainter(image)
     QSvgRenderer(str(folder / 'respondeai.svg')).render(painter)
@@ -18,6 +18,7 @@ def main():
     image.save(str(folder / 'respondeai.png'))
     with Image.open(folder / 'respondeai.png') as source:
         source.save(folder / 'respondeai.ico', sizes=[(s, s) for s in (16, 24, 32, 48, 64, 128, 256)])
+        source.save(folder / 'respondeai.icns')
 
 
 if __name__ == '__main__':

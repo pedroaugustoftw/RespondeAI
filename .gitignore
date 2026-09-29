@@ -13,6 +13,8 @@ htmlcov/
 # Compilação: o executável é distribuído pelas Releases
 /dist/
 /build/
+/build-geos*/
+/release-assets/
 *.exe
 *.log
 
