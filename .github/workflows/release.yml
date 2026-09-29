@@ -1,6 +1,11 @@
 name: Pacotes de download
 on:
   workflow_dispatch:
+    inputs:
+      windows_arm_only:
+        description: Gerar somente Windows ARM64
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -10,13 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - {os: windows-latest, label: Windows, arch: x64}
-          - {os: windows-11-arm, label: Windows, arch: arm64}
-          - {os: ubuntu-24.04, label: Linux, arch: x64}
-          - {os: ubuntu-24.04-arm, label: Linux, arch: arm64}
-          - {os: macos-15-intel, label: macOS, arch: x64}
-          - {os: macos-15, label: macOS, arch: arm64}
+        include: ${{ fromJSON(inputs.windows_arm_only && '[{"os":"windows-11-arm","label":"Windows","arch":"arm64"}]' || '[{"os":"windows-latest","label":"Windows","arch":"x64"},{"os":"windows-11-arm","label":"Windows","arch":"arm64"},{"os":"ubuntu-24.04","label":"Linux","arch":"x64"},{"os":"ubuntu-24.04-arm","label":"Linux","arch":"arm64"},{"os":"macos-15-intel","label":"macOS","arch":"x64"},{"os":"macos-15","label":"macOS","arch":"arm64"}]') }}
     runs-on: ${{ matrix.os }}
     env:
       QT_QPA_PLATFORM: offscreen
